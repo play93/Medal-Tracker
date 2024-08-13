@@ -7,9 +7,7 @@ function App() {
   
   //국가리스트 상태 관리 & 메달 집계 추가 기능 구현
 
-  const [countries, setCountries] = useState([
-    
-  ]);
+  const [countries, setCountries] = useState([]);
   // 국가 이름을 입력하는 Input 값을 상태관리하기 위한 useState
 
   const [country, setCountry] = useState(""); //국가
@@ -27,7 +25,7 @@ function App() {
       if (c.country === country){
         return true
       }else{
-        return false
+        return alert("해당국가가 없습니다!")
       }
     });
     console.log(targetCountry);
@@ -66,9 +64,11 @@ function App() {
 
   // 리스트추가
   const handleAddCountry = (event) => {
- 
+    event.preventDefault();//항상 위에와야함
+
+    console.log(country.trim());
     //국가를 입력하지 않으면 alert + 추가 안됨
-    if(country === ""){alert("국가를 입력하세요")}
+    if(country.trim() === ""){alert("국가를 입력하세요"); return}
 
     const newCountry = {
       id: new Date().getTime(),
@@ -78,17 +78,26 @@ function App() {
       bronze: Number(bronze),
     }
 
-  setCountries([...countries, newCountry])
+     //중복국가 => alert + 추가 안됨
+     if(countries.country === newCountry.country){alert("중복됨"); return}
+
+
+  //메달 갯수에 따라 내림차순 정렬
+  setCountries([...countries, newCountry].sort(function compare(a,b){
+    if(a.gold > b.gold){
+      return b.gold - a.gold
+    }else if(a.gold === b.gold){
+      return b.silver - a.silver
+    }else if(a.silver === b.silver){
+      return b.bronze - a.bronze
+    }}))
+  //setCountries([...countries, newCountry])
   
   setCountry("")
   setGold(0)
   setSilver(0)
   setBronze(0)
-  
-  event.preventDefault();
-    // 메달 메달 갯수를 입력하는 로직이 필요할 거에요.
-    
-    
+
   };
 
 
@@ -98,9 +107,15 @@ function App() {
       return country.id != id
     });
     console.log(filteringCountries);
-    setCountries(filteringCountries);
+    if (confirm("정말 삭제하시겠습니까?") === true){
+      setCountries(filteringCountries);
+    }else{
+      return false;
+    }
+    
   };
 
+ // let sortByMedal = map([...countries].sort((a,b) => a[1] - b[1]);
 
   return (/* <---- HTML/JSX 영역  ---->*/
     <>
