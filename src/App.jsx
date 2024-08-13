@@ -66,6 +66,16 @@ function App() {
   const handleAddCountry = (event) => {
     event.preventDefault();//항상 위에와야함
 
+    //중복국가 => alert + 추가 안됨
+    //if(country === newCountry.country){alert("중복됨"); return}
+    let duplicateCountry = countries.find(function(countryItem) {
+      return countryItem.country === country;
+  });
+    if(duplicateCountry){
+      alert("국가명이 중복됨");
+      return
+    }
+
     console.log(country.trim());
     //국가를 입력하지 않으면 alert + 추가 안됨
     if(country.trim() === ""){alert("국가를 입력하세요"); return}
@@ -76,10 +86,9 @@ function App() {
       gold: Number(gold),
       silver: Number(silver),
       bronze: Number(bronze),
-    }
+    } 
 
-     //중복국가 => alert + 추가 안됨
-     if(countries.country === newCountry.country){alert("중복됨"); return}
+     
 
 
   //메달 갯수에 따라 내림차순 정렬
