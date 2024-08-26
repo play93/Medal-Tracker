@@ -36,7 +36,7 @@ const Form = ({ countries, setCountries }) => {
             )
             .map(function (countries) {
               return (
-                <tr key={countries.id}>
+                <tr key={countries.id || crypto.randomUUID()}>
                   <td>{countries.country}</td>
                   <td>{countries.gold}</td>
                   <td>{countries.silver}</td>

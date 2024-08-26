@@ -2,7 +2,7 @@ import "./css/Resset.css";
 import "./css/App.css";
 import { useState } from "react";
 import List from "./components/List";
-import Form from "./components/List";
+import Form from "./components/Form";
 
 function App() {
   const [countries, setCountries] = useState([]);

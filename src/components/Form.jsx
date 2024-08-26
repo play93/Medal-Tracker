@@ -10,13 +10,14 @@ const Form = ({ countries, setCountries }) => {
 
   //리스트수정
   const handleUpdateCountry = (event) => {
-    const targetCountry = countries.find(function (c) {
-      if (c.country === scoreInfo.country) {
-        return true;
-      } else {
-        return alert("해당국가가 없습니다!");
-      }
+    const targetCountry = countries.find((c) => {
+      c.country === scoreInfo.country;
     });
+
+    if (!targetCountry) {
+      alert("해당국가가 없습니다!");
+      return;
+    }
 
     const newCountries = countries.map((country) => {
       if (country === targetCountry) {
