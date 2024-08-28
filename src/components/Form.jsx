@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Input from "./Input";
 
 const Form = ({ countries, setCountries }) => {
   const [scoreInfo, setScoreInfo] = useState({
@@ -9,9 +10,11 @@ const Form = ({ countries, setCountries }) => {
   });
 
   //리스트수정
-  const handleUpdateCountry = (event) => {
+  const handleUpdateCountry = () => {
+    console.log("countries", countries);
+    console.log("scoreInfo", scoreInfo);
     const targetCountry = countries.find((c) => {
-      c.country === scoreInfo.country;
+      return c.country === scoreInfo.country;
     });
 
     if (!targetCountry) {
@@ -37,8 +40,6 @@ const Form = ({ countries, setCountries }) => {
     setCountries(newCountries);
 
     setScoreInfo({ country: "", gold: 0, silver: 0, bronze: 0 });
-
-    event.preventDefault();
   };
 
   // 리스트추가
@@ -68,14 +69,6 @@ const Form = ({ countries, setCountries }) => {
 
     //메달 갯수에 따라 내림차순 정렬
     setCountries([...countries, newCountry]);
-
-    setScoreInfo({ country: "", gold: 0, silver: 0, bronze: 0 });
-  };
-
-  //onChange 함수
-  const handleOnChange = (e) => {
-    const { value, name } = e.target;
-    setScoreInfo((prev) => ({ ...prev, [name]: value }));
   };
 
   return (
@@ -83,46 +76,38 @@ const Form = ({ countries, setCountries }) => {
       <div className="medalTracker">
         <h1>2024 파리 올림픽🥇🥈🥉 </h1>
         <form>
-          <div className="inputBox">
-            <label>국가명</label>
-            <input
-              type="text"
-              name="country"
-              value={scoreInfo.country}
-              onChange={handleOnChange}
-              placeholder="국가 입력"
-            />
-          </div>
-          <div className="inputBox">
-            <label>금메달</label>
-            <input
-              type="number"
-              name="gold"
-              value={scoreInfo.gold}
-              onChange={handleOnChange}
-              placeholder="0"
-            />
-          </div>
-          <div className="inputBox">
-            <label>은메달</label>
-            <input
-              type="number"
-              name="silver"
-              value={scoreInfo.silver}
-              onChange={handleOnChange}
-              placeholder="0"
-            />
-          </div>
-          <div className="inputBox">
-            <label>동메달</label>
-            <input
-              type="number"
-              name="bronze"
-              value={scoreInfo.bronze}
-              onChange={handleOnChange}
-              placeholder="0"
-            />
-          </div>
+          <Input
+            label={"국가명"}
+            inputType={"text"}
+            inputName={"country"}
+            placeholder={"국가명을 입력하세요"}
+            scoreInfo={scoreInfo}
+            setScoreInfo={setScoreInfo}
+          />
+          <Input
+            label={"금메달"}
+            inputType={"number"}
+            inputName={"gold"}
+            placeholder={"0"}
+            scoreInfo={scoreInfo}
+            setScoreInfo={setScoreInfo}
+          />
+          <Input
+            label={"은메달"}
+            inputType={"number"}
+            inputName={"silver"}
+            placeholder={"0"}
+            scoreInfo={scoreInfo}
+            setScoreInfo={setScoreInfo}
+          />
+          <Input
+            label={"동메달"}
+            inputType={"number"}
+            inputName={"bronze"}
+            placeholder={"0"}
+            scoreInfo={scoreInfo}
+            setScoreInfo={setScoreInfo}
+          />
           <div className="inputBox">
             <button type="submit" onClick={handleAddCountry}>
               국가 추가
